@@ -1,0 +1,345 @@
+setwd("C:/Users/...")
+
+
+library(tidyr)
+library(dplyr)
+library(vegan)
+library(ggplot2)
+library(reshape2)
+
+#homog <- read.csv("vector_homogenizacion.csv")
+geogr <- read.csv("distance_geographic.csv")
+polit_dist <- read.csv("political_distances.csv")
+polit_proport <- read.csv("politicalproportion.csv")
+
+jaccard <- read.csv("...Jaccard_Homogenization_Results.csv")
+hist(jaccard$HI)
+# Create the histogram
+summary(jaccard$HI)
+
+data <- data.frame(HI = jaccard$HI) %>%
+  filter(!is.na(HI))
+
+# Create the histogram with ggplot
+# Define custom breaks
+breaks <- c(-Inf, -0.0005, 0, 0.0005, Inf)
+
+
+
+# Create the histogram with ggplot
+p <- ggplot(jaccard, aes(x = HI, fill = HI > 0)) +
+  geom_histogram(binwidth = 0.00015, color = "black", alpha = 0.7) +
+  scale_fill_manual(values = c("TRUE" = "blue", "FALSE" = "red")) +  # Colors for positive and negative values
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +  # Vertical line at zero
+  labs(x = "Homogenization Index", y = "Count", title = "") +
+  theme_minimal()+ guides(fill="none")
+
+
+sub_filtered <- subset(jaccard, HI < -0.00001 | HI > 0.00001)
+
+p <- ggplot(sub_filtered, aes(x = HI, fill = HI > 0)) +
+  geom_histogram(binwidth = 0.00005, color = "black", alpha = 0.7) +
+  scale_fill_manual(values = c("TRUE" = "blue", "FALSE" = "red")) +  # Colores para valores positivos y negativos
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +  # Línea vertical en cero
+  labs(x = "Homogenization Index", y = "Count", title = "") +
+  theme_minimal() +
+  theme(text = element_text(size = 12)) +  # Tamaño de fuente 12
+  guides(fill = "none")  # Ocultar leyenda
+
+print(p)
+p
+#ggsave("C:/Users/yohan/Desktop/otros/Romi/cluster/histogram_HI.jpeg", plot = p, width = 8, height = 6, dpi = 300)
+
+colnames(jaccard)
+jaccard <- jaccard[, c(1,2,4,5,6)]
+jaccard <- na.omit(jaccard)
+colnames(jaccard) <- c("ecoregion1", "ecoregion2", "nat_distance", "exo_distance", "hi")
+jaccard <- jaccard %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
+
+
+clima_pop <- read.csv("clima_pop.csv")
+colnames(clima_pop)
+clima <-clima_pop[,c(1,2,5)]
+clima_dist <- vegdist(clima[, 2,3], method = "euclidean", na.rm = TRUE)
+clima_dist<- as.matrix(clima_dist)
+clima_dist<- as.data.frame(clima_dist)
+rownames(clima_dist) <- clima$ECO_NAME
+colnames(clima_dist) <- clima$ECO_NAME
+library(reshape2)
+clima_dist_long <- melt(as.matrix(clima_dist), varnames = c("ECO_NAME1", "ECO_NAME2"), value.name = "distance")
+colnames(clima_dist_long) <- c("ecoregion1", "ecoregion2", "value")
+
+
+clima_long <- clima_dist_long %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
+
+# View the pairwise data
+head(clima_long)
+
+
+polit_dist <- polit_dist %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
+
+polit_proport <- polit_proport %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
+
+
+
+geog_long <- geogr %>%
+  pivot_longer(cols = -1, names_to = "ecoregion2", values_to = "value") %>%
+  rename(ecoregion1 = 1) %>%
+  filter(ecoregion1 != ecoregion2)  # Remove self-comparisons
+
+# View the pairwise data
+head(geog_long)
+
+#homog <- homog[, c(2:4)]
+
+
+clima_long <- clima_long %>% rename(climatic_distance = value)
+geog_long <- geog_long %>% rename(geographic_distance = value)
+polit_dist <- polit_dist %>% rename(political_distance = distance)
+polit_proport <- polit_proport %>% rename(political_proportion = proportion)
+
+
+
+
+# Merge all datasets
+merged_data <- jaccard %>%
+  left_join(clima_long, by = c("ecoregion1", "ecoregion2")) %>%
+  left_join(geog_long, by = c("ecoregion1", "ecoregion2")) %>%
+  left_join(polit_dist, by = c("ecoregion1", "ecoregion2")) %>%
+  left_join(polit_proport, by = c("ecoregion1", "ecoregion2"))
+
+################ elimino comparacion de ecoregione siguales, ej yungas yungas
+merged_data <- subset(merged_data, !is.na(merged_data$political_proportion))
+
+
+summary(merged_data$climatic_distance)
+summary(merged_data$nat_distance)
+summary(merged_data$exo_distance)
+
+# Check the merged dataset
+head(merged_data)
+# Log-transform species similarity
+colnames(merged_data)
+merged_data$hi_posit <- merged_data$hi+1
+merged_data$nat_posit <- merged_data$hi+1
+merged_data <- merged_data %>%
+  mutate(log_dist_hi = log(hi_posit)) %>%
+  mutate(log_dist_nat = log(nat_distance+1)) %>%
+  mutate(log_dist_exo = log(exo_distance + 1)) 
+# Add 1 to avoid log(0)
+summary(merged_data$exo_distance)
+summary(merged_data$log_dist_nat)
+summary(merged_data$log_dist_hi)
+summary(merged_data$hi_posit)
+
+
+
+# Standardize all distances for comparability
+merged_data <- merged_data %>%
+  mutate(
+    response_scaled =(merged_data$hi - min(merged_data$hi)) / 
+      (max(merged_data$hi) - min(merged_data$hi)),
+    climatic_distance_scaled = (climatic_distance - min(climatic_distance)) / (max(climatic_distance) - min(climatic_distance)),
+    geographic_distance_scaled = (geographic_distance - min(geographic_distance)) / (max(geographic_distance) - min(geographic_distance)),
+    political_distance_scaled = (political_distance - min(political_distance)) / (max(political_distance) - min(political_distance)),
+    political_proportion_scaled = (political_proportion - min(political_proportion)) / (max(political_proportion) - min(political_proportion))
+  )
+
+subs <- subset(merged_data,!is.na(merged_data$climatic_distance_scaled))
+unique(subs$ecoregion2)
+merged_data$hi_bin <- ifelse(merged_data$hi > 0, 1, 0)
+
+lm_model <- lm( log_dist_hi~
+                      geographic_distance_scaled+
+                      climatic_distance_scaled+
+                      political_proportion,                      ,
+                    data = merged_data)
+summary(lm_model)
+
+
+lm_model <- lm( log_dist_exo~
+                  geographic_distance_scaled+
+                  climatic_distance_scaled+
+                  political_distance+
+                  political_proportion,                      ,
+                data = merged_data)
+summary(lm_model)
+
+
+colnames(merged_data)
+# Fit the regression model
+
+
+
+
+filtered_mergeddata <- merged_data[merged_data$hi !=0, ]
+
+library(ggplot2)
+library( ggpmisc)
+colnames(subs)
+
+
+ggplot(data = merged_data, aes(x = geographic_distance_scaled, y = log_dist_hi)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "a)",  
+       x = "Climatic Distance (scaled)", 
+       y = "Ln(Hj")+ theme_grey(base_size =9)+
+  theme(plot.title = element_text(hjust = 0, size = 10, face = "bold"))
+ggsave( file="hi_geo.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+
+
+#ggsave( file="native_geo.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+ggplot(data = merged_data, aes(x = climatic_distance_scaled, y = log_dist_hi)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "b)",  
+                     x = "Climatic Distance (scaled)", 
+                     y = "Ln(Hj")+ theme_grey(base_size =9)+
+  theme(plot.title = element_text(hjust = 0, size = 10, face = "bold"))
+ggsave( file="nhi_clim.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+colnames(merged_data)
+ggplot(data = merged_data, aes(x = political_distance_scaled, y = log_dist_hi)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "",  
+                     x = "Total countries (scaled)", 
+                     y = "Ln(Hj)")+ theme_grey(base_size =9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="native_poli_dist.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+ggplot(data = merged_data, aes(x = political_proportion, y = log_dist_hi)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +
+  stat_poly_line() +
+  labs(title = "c)",  
+                     x = "Jaccard index Countries", 
+                     y = "Ln(Hj")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0, size = 10, face = "bold"))
+ggsave( file="hi_poli_prop.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+#############################################logistico
+# Install if needed
+summary(merged_data$log_dist_hi)
+lineal <-  glm(log_dist_hi ~ geographic_distance_scaled +climatic_distance_scaled + political_proportion, family =poisson, data = merged_data)
+binomial <- glm(hi_bin ~ geographic_distance_scaled +climatic_distance_scaled + political_proportion, family = binomial, data = merged_data)
+summary(binomial)
+
+
+
+
+
+######################################## NATIVA
+
+ggplot(data = merged_data, aes(x = geographic_distance_scaled, y = log_dist_nat)) +
+  stat_poly_eq(use_label(c("eq", "R2","p")), size=2.5) +
+  geom_point(size=1) +
+  stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Geographic Distance (scaled)", 
+       y = "Ln(Jaccard Native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_geo.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+ggplot(data = merged_data, aes(x = climatic_distance_scaled, y = log_dist_nat)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Climatic Distance (scaled)", 
+       y = "Ln(Jaccard Native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_clim.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+colnames(merged_data)
+ggplot(data = merged_data, aes(x = political_distance_scaled, y = log_dist_nat)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Total countries (scaled)", 
+       y = "Ln(Jaccard Native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_poli_dist.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+ggplot(data = merged_data, aes(x = political_proportion, y = log_dist_nat)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Jaccard index Countries", 
+       y = "Ln(Jaccard Native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+
+
+
+
+
+
+
+
+
+##################################EXOTICAS
+
+
+
+
+ggplot(data = merged_data, aes(x = geographic_distance_scaled, y = log_dist_exo)) +
+  stat_poly_eq(use_label(c("eq", "R2","p")), size=2.5) +
+  geom_point(size=1) +
+  stat_poly_line() +
+  labs(title = "Non-native species",  
+                     x = "Geographic Distance (scaled)", 
+                     y = "Ln(Jaccard Non-native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_geo.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+ggplot(data = merged_data, aes(x = climatic_distance_scaled, y = log_dist_exo)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  stat_poly_line() +
+  labs(title = "Non-native species",  
+                     x = "Climatic Distance (scaled)", 
+                     y = "Ln(Jaccard Non-native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_clim.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+colnames(merged_data)
+ggplot(data = merged_data, aes(x = political_distance_scaled, y = log_dist_exo)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Non-native species",  
+                     x = "Total countries (scaled)", 
+                     y = "Ln(Jaccard Non-native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_poli_dist.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+ggplot(data = merged_data, aes(x = political_proportion, y = log_dist_exo)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Non-native species", 
+                     x = "Jaccard index Countries", 
+                     y = "Ln(Jaccard Non-native Species)")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+#ggsave( file="exotic_poli_prop.jpeg", width=10, height=10, units = c( "cm"), dpi=400)

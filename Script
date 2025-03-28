@@ -21,8 +21,8 @@ jaccard       <- read.csv("Jaccard_Homogenization_Results.csv")
 
 
 
-# Filter jaccard data to remove near-zero HI values for a refined histogram
-jaccard_filtered <- subset(jaccard, HI < -0.00001 | HI > 0.00001)
+# Filter jaccard data to remove zero HI values for a refined histogram
+jaccard_filtered <- subset(jaccard, HI!= 0)
 
 p_hi <- ggplot(jaccard_filtered, aes(x = HI, fill = HI > 0)) +
   geom_histogram(binwidth = 0.00005, color = "black", alpha = 0.7) +

@@ -9,8 +9,9 @@ This study examines whether non-native plants drive floristic homogenization or 
 ## Repository Structure
 
 Pre-processing includes
- 1) Climate variables: code and shapefile for extracting climate variables for each ecoregion in Google earth engine
- 2) Jaccard_&_homogenization_index: Distance matrix and code for calculating jaccard and homogenization index
+    1) Climate variables: code and shapefile for extracting climate variables for each ecoregion in Google earth engine
+    2) Jaccard_&_homogenization_index: Distance matrix and code for calculating jaccard and homogenization index
+
 Dataset/ # Contains all the input CSV files used in the analysis. 
 Script/ # R scripts for data analysis, and visualization.
 

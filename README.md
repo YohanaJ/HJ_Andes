@@ -15,10 +15,11 @@ Pre-processing includes
     2) Jaccard_&_homogenization_index: Distance matrix and code for calculating jaccard and homogenization index
 
 Analysis includes
+  1) Dataset/ # Contains all the input CSV files used in the analysis. 
+    
+  2) Script/ # R scripts for data analysis, and visualization.
 
-1) Dataset/ # Contains all the input CSV files used in the analysis. 
 
-2) Script/ # R scripts for data analysis, and visualization.
 
 
 ## Requirements

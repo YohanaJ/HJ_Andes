@@ -1,0 +1,85 @@
+# Load required packages
+library(tidyverse)  
+library(vegan)
+
+setwd("C:/Users/")
+
+# Define a function to calculate pairwise Jaccard similarity manually
+calc_jaccard_optimized <- function(df) {
+  regions <- df[[1]]
+  X <- as.matrix(df[, -1])
+
+  # Ensure binary
+  X[X != 0] <- 1
+
+  # 1) Intersection
+  intersection <- X %*% t(X)
+
+  # 2) Per-region totals
+  row_totals <- rowSums(X)
+
+  # 3) Union
+  union_ <- outer(row_totals, row_totals, FUN = "+") - intersection
+
+  # 4) Jaccard
+  jaccard_matrix <- intersection / union_
+
+  # Remove diagonal
+  diag(jaccard_matrix) <- NA
+
+  # ***** Keep only the upper triangle (or lower) *****
+  # In this example, we keep the upper triangle (i < j)
+  jaccard_matrix[lower.tri(jaccard_matrix, diag = TRUE)] <- NA
+
+  # 5) Melt
+  long_results <- reshape2::melt(
+    jaccard_matrix, varnames = c("i", "j"),
+    value.name = "Jaccard_Index"
+  )
+
+  long_results$Region_1 <- regions[long_results$i]
+  long_results$Region_2 <- regions[long_results$j]
+
+  # Remove the rows that became NA
+  long_results <- na.omit(long_results)
+
+  long_results <- long_results[ , c("Region_1", "Region_2", "Jaccard_Index")]
+  rownames(long_results) <- NULL
+
+  return(long_results)
+}
+
+
+# Load presence-absence matrices (Ensure CSV files are in the working directory)
+native <- read.csv("sim_table_native.csv", header = TRUE)
+native <-  native %>% arrange(ecoregion)
+exotic <- read.csv("sim_table_non_native.csv", header = TRUE)
+exotic <- exotic %>% arrange(ecoregion)
+total <- read.csv("sim_table_total.csv", header = TRUE)
+total <- total %>% arrange(ecoregion)
+# Compute Jaccard indices using the correct formula
+J_native <- calc_jaccard_optimized (native)
+J_exotic <- calc_jaccard_optimized (exotic)
+J_total <- calc_jaccard_optimized (total)
+
+
+
+
+
+J_total2  <- J_total  %>% rename(Jaccard_Index_total  = Jaccard_Index)
+J_native2 <- J_native %>% rename(Jaccard_Index_native = Jaccard_Index)
+J_exotic2 <- J_exotic %>% rename(Jaccard_Index_exotic = Jaccard_Index)
+
+# Compute homogenization index
+library(dplyr)
+
+all_jaccard <- J_total2  %>%
+  full_join(J_native2 , by = c("Region_1", "Region_2")) %>%
+  full_join(J_exotic2 , by = c("Region_1", "Region_2")) %>%
+  mutate(
+    HI = Jaccard_Index_total - Jaccard_Index_native
+  )
+
+
+# Save results as CSVjjj
+write.csv(all_jaccard, "Jaccard_Homogenization_Results.csv", row.names = FALSE)

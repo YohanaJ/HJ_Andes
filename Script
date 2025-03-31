@@ -112,7 +112,7 @@ plot_regression <- function(data, x, y, title_text, xlab, ylab) {
 
 # Regression plots for Homogenization Index 
 p_a <- plot_regression(merged_data, 
-                       x = "geographic_distance_scaled", y = "HI",
+                       x = "geographic_distance_scaled", y = "hi",
                        title_text = "a)", 
                        xlab = "Geographic Distance (scaled)", 
                        ylab = "Hj")
@@ -120,13 +120,13 @@ p_a <- plot_regression(merged_data,
 # ggsave("hi_geo.jpeg", plot = p_a, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_b <- plot_regression(merged_data, 
-                       x = "climatic_distance_scaled", y = "HI",
+                       x = "climatic_distance_scaled", y = "hi",
                        title_text = "b)", 
                        xlab = "Climatic Distance (scaled)", 
                        ylab = "Hj")
 # p_c: Using political distance for homogenization index
 p_c <- plot_regression(merged_data, 
-                       x = "political_proportion", y = "HI",
+                       x = "political_proportion", y = "hi",
                        title_text = "c)", 
                        xlab = "Jaccard index Countries", 
                        ylab = "Hj")

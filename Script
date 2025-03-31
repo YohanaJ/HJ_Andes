@@ -14,7 +14,7 @@ library(ggpmisc)
 # Read input CSV files
 geogr         <- read.csv("distance_geographic.csv")
 polit_proport <- read.csv("politicalproportion.csv")
-clima_pop     <- read.csv("clima_pop.csv")
+clima     <- read.csv("Ecoregions_climate_stats.csv")
 jaccard       <- read.csv("Jaccard_Homogenization_Results.csv")
 
 ### ------------------ Histogram of Homogenization Index ------------------
@@ -53,9 +53,8 @@ jaccard <- jaccard %>%
   mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
 
 # Prepare climatic data by selecting columns and computing Euclidean distances.
-# Note: Use "clima[, 2:3]" to select columns 2 and 3 (temperature and precipitacion).
-clima <- clima_pop[, c(1, 2, 5)]
-clima_dist <- vegdist(clima[, 2:3], method = "euclidean", na.rm = TRUE)
+
+clima_dist <- vegdist(clima[, 2:7], method = "euclidean", na.rm = TRUE)
 clima_dist <- as.matrix(clima_dist)
 clima_dist <- as.data.frame(clima_dist)
 rownames(clima_dist) <- clima$ECO_NAME
@@ -88,13 +87,6 @@ merged_data <- jaccard %>%
   left_join(geog_long, by = c("ecoregion1", "ecoregion2")) %>%
   left_join(polit_proport, by = c("ecoregion1", "ecoregion2"))
 
-# Create log-transformed variables (adding 1 to avoid log(0))
-merged_data <- merged_data %>%
-  mutate(
-    log_hi   = log(hi + 1),
-    log_nat  = log(nat_distance + 1),
-    log_exo  = log(exo_distance + 1)
-  )
 
 # Standardize (scale) climatic and geographic distances to a 0-1 range for comparability
 merged_data <- merged_data %>%
@@ -118,67 +110,67 @@ plot_regression <- function(data, x, y, title_text, xlab, ylab) {
     theme(plot.title = element_text(hjust = 0, size = 10, face = "bold"))
 }
 
-# Regression plots for Homogenization Index (log_hi)
+# Regression plots for Homogenization Index 
 p_a <- plot_regression(merged_data, 
-                       x = "geographic_distance_scaled", y = "log_hi",
+                       x = "geographic_distance_scaled", y = "HI",
                        title_text = "a)", 
                        xlab = "Geographic Distance (scaled)", 
-                       ylab = "Ln(HI)")
+                       ylab = "Hj")
 # Uncomment to save if needed
 # ggsave("hi_geo.jpeg", plot = p_a, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_b <- plot_regression(merged_data, 
-                       x = "climatic_distance_scaled", y = "log_hi",
+                       x = "climatic_distance_scaled", y = "HI",
                        title_text = "b)", 
                        xlab = "Climatic Distance (scaled)", 
-                       ylab = "Ln(HI)")
+                       ylab = "Hj")
 # p_c: Using political distance for homogenization index
 p_c <- plot_regression(merged_data, 
-                       x = "political_proportion", y = "log_hi",
+                       x = "political_proportion", y = "HI",
                        title_text = "c)", 
                        xlab = "Jaccard index Countries", 
-                       ylab = "Ln(HI)")
+                       ylab = "Hj")
 ggsave("hi_poli_prop.jpeg", plot = p_c, width = 10, height = 10, units = "cm", dpi = 400)
 
 # Regression plots for Native Species (log_nat)
 p_nat_geo <- plot_regression(merged_data, 
-                             x = "geographic_distance_scaled", y = "log_nat",
+                             x = "geographic_distance_scaled", y = "nat_distance",
                              title_text = "Native species", 
                              xlab = "Geographic Distance (scaled)", 
-                             ylab = "Ln(Jaccard Native Species)")
+                             ylab = "Jaccard Native Species")
 # ggsave("native_geo.jpeg", plot = p_nat_geo, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_nat_clim <- plot_regression(merged_data, 
-                              x = "climatic_distance_scaled", y = "log_nat",
+                              x = "climatic_distance_scaled", y = "nat_distance",
                               title_text = "Native species", 
                               xlab = "Climatic Distance (scaled)", 
-                              ylab = "Ln(Jaccard Native Species)")
+                              ylab = "Jaccard Native Species")
 # ggsave("native_clim.jpeg", plot = p_nat_clim, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_nat_pol <- plot_regression(merged_data, 
-                             x = "political_proportion", y = "log_nat",
+                             x = "political_proportion", y = "nat_distance",
                              title_text = "Native species", 
                              xlab = "Jaccard index Countries", 
-                             ylab = "Ln(Jaccard Native Species)")
+                             ylab = "Jaccard Native Species")
 
 # Regression plots for Non-native Species (log_exo)
 p_exo_geo <- plot_regression(merged_data, 
-                             x = "geographic_distance_scaled", y = "log_exo",
+                             x = "geographic_distance_scaled", y = "exo_distance",
                              title_text = "Non-native species", 
                              xlab = "Geographic Distance (scaled)", 
-                             ylab = "Ln(Jaccard Non-native Species)")
+                             ylab = "Jaccard Non-native Species")
 # ggsave("exotic_geo.jpeg", plot = p_exo_geo, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_exo_clim <- plot_regression(merged_data, 
-                              x = "climatic_distance_scaled", y = "log_exo",
+                              x = "climatic_distance_scaled", y = "exo_distance",
                               title_text = "Non-native species", 
                               xlab = "Climatic Distance (scaled)", 
-                              ylab = "Ln(Jaccard Non-native Species)")
+                              ylab = "Jaccard Non-native Species")
 # ggsave("exotic_clim.jpeg", plot = p_exo_clim, width = 10, height = 10, units = "cm", dpi = 400)
 
 p_exo_pol <- plot_regression(merged_data, 
-                             x = "political_proportion", y = "log_exo",
+                             x = "political_proportion", y = "exo_distance",
                              title_text = "Non-native species", 
                              xlab = "Jaccard index Countries", 
-                             ylab = "Ln(Jaccard Non-native Species)")
+                             ylab = "Jaccard Non-native Species")
 ggsave("exotic_poli_prop.jpeg", plot = p_exo_pol, width = 10, height = 10, units = "cm", dpi = 400)

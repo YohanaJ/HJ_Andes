@@ -1,0 +1,94 @@
+#OPEN ECOREGIONS SHAPEFILE
+var geometry=table
+
+// Load the WORLDCLIM climate dataset
+var dataset = ee.Image('WORLDCLIM/V1/BIO');
+
+// Select variables and adjust units if necessary
+var anualTemp = dataset.select('bio01').divide(10); // Mean annual temp
+var seasonTemp = dataset.select('bio04') // Temperature seasonality
+var minTemp = dataset.select('bio06').divide(10); // Min temp, adjusted
+var anualprecip = dataset.select('bio12'); // Annual precipitation
+var precipdry = dataset.select('bio14');// Precipitation of driest month
+var precSeasonality = dataset.select('bio15') // Precipitation seasonality
+print(seasonTemp)
+
+// Function to calculate mean climate variables and sum of population for each ecoregion
+var calculateStats = function(feature) {
+  // Define the geometry
+  var geometry = feature.geometry();
+  
+  // Reduce climate variables by mean per ecoregion
+   var meanAnualTemp = anualTemp.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio01');
+
+   var meanseasonTemp = seasonTemp.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio04');
+  
+  var meanMinTemp = minTemp.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio06');
+  
+  var meanPrecip = anualprecip.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio12');
+  
+  
+  var dryPrecip = precipdry.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio14');
+
+
+  
+  var meanprecipSeasonality = precSeasonality.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: geometry,
+    scale: 1000,
+    maxPixels: 1e10
+  }).get('bio15');
+  
+  
+  
+  
+  // Return the feature with added properties for climate and population
+  return feature.set({
+    'meanAnualTemp': meanAnualTemp,
+    'seasonTemp': meanseasonTemp,
+    'meanMinTemp': meanMinTemp,
+    'meanPrecip': meanPrecip,
+    'dryPrecip': dryPrecip,
+    'precipSeasonality ':meanprecipSeasonality
+  });
+};
+
+// Apply the function to each ecoregion
+var ecorWithStats = geometry.map(calculateStats);
+
+
+
+// Print the result
+print(ecorWithStats);
+
+// Export the results as a CSV file (optional)
+Export.table.toDrive({
+  collection: ecorWithStats,
+  description: 'Ecoregions_with_climate_stats',
+  fileFormat: 'CSV'
+});

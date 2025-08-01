@@ -1,0 +1,631 @@
+ecoregion1,ecoregion2,dissimilarity
+Araya and Paria xeric scrub,Atacama desert,1
+Atacama desert,Bolivian montane dry forests,1
+Araya and Paria xeric scrub,Bolivian montane dry forests,1
+Atacama desert,Bolivian Yungas,1
+Bolivian montane dry forests,Bolivian Yungas,0.5
+Araya and Paria xeric scrub,Bolivian Yungas,1
+Atacama desert,Cauca Valley dry forests,1
+Bolivian Yungas,Cauca Valley dry forests,1
+Bolivian montane dry forests,Cauca Valley dry forests,1
+Araya and Paria xeric scrub,Cauca Valley dry forests,1
+Atacama desert,Cauca Valley montane forests,1
+Cauca Valley dry forests,Cauca Valley montane forests,0
+Bolivian Yungas,Cauca Valley montane forests,1
+Bolivian montane dry forests,Cauca Valley montane forests,1
+Araya and Paria xeric scrub,Cauca Valley montane forests,1
+Cauca Valley montane forests,Central Andean dry puna,1
+Atacama desert,Central Andean dry puna,0.75
+Cauca Valley dry forests,Central Andean dry puna,1
+Bolivian Yungas,Central Andean dry puna,0.5
+Bolivian montane dry forests,Central Andean dry puna,0.75
+Araya and Paria xeric scrub,Central Andean dry puna,1
+Cauca Valley montane forests,Central Andean puna,1
+Atacama desert,Central Andean puna,0.75
+Cauca Valley dry forests,Central Andean puna,1
+Bolivian Yungas,Central Andean puna,0.5
+Bolivian montane dry forests,Central Andean puna,0.75
+Araya and Paria xeric scrub,Central Andean puna,1
+Central Andean dry puna,Central Andean puna,0
+Cauca Valley montane forests,Central Andean wet puna,1
+Atacama desert,Central Andean wet puna,1
+Cauca Valley dry forests,Central Andean wet puna,1
+Bolivian Yungas,Central Andean wet puna,0
+Central Andean puna,Central Andean wet puna,0.5
+Bolivian montane dry forests,Central Andean wet puna,0.5
+Araya and Paria xeric scrub,Central Andean wet puna,1
+Central Andean dry puna,Central Andean wet puna,0.5
+Cauca Valley montane forests,Chilean matorral,1
+Atacama desert,Chilean matorral,0
+Cauca Valley dry forests,Chilean matorral,1
+Bolivian Yungas,Chilean matorral,1
+Central Andean wet puna,Chilean matorral,1
+Central Andean puna,Chilean matorral,0.75
+Bolivian montane dry forests,Chilean matorral,1
+Araya and Paria xeric scrub,Chilean matorral,1
+Central Andean dry puna,Chilean matorral,0.75
+Cauca Valley montane forests,Cordillera Central paramo,1
+Atacama desert,Cordillera Central paramo,1
+Cauca Valley dry forests,Cordillera Central paramo,1
+Bolivian Yungas,Cordillera Central paramo,0.666666667
+Central Andean wet puna,Cordillera Central paramo,0.666666667
+Central Andean puna,Cordillera Central paramo,0.8
+Bolivian montane dry forests,Cordillera Central paramo,1
+Araya and Paria xeric scrub,Cordillera Central paramo,1
+Central Andean dry puna,Cordillera Central paramo,0.8
+Chilean matorral,Cordillera Central paramo,1
+Cauca Valley montane forests,Cordillera de Merida paramo,1
+Atacama desert,Cordillera de Merida paramo,1
+Cauca Valley dry forests,Cordillera de Merida paramo,1
+Bolivian Yungas,Cordillera de Merida paramo,1
+Cordillera Central paramo,Cordillera de Merida paramo,1
+Central Andean wet puna,Cordillera de Merida paramo,1
+Central Andean puna,Cordillera de Merida paramo,1
+Bolivian montane dry forests,Cordillera de Merida paramo,1
+Araya and Paria xeric scrub,Cordillera de Merida paramo,0
+Central Andean dry puna,Cordillera de Merida paramo,1
+Chilean matorral,Cordillera de Merida paramo,1
+Cauca Valley montane forests,Cordillera La Costa montane forests,1
+Atacama desert,Cordillera La Costa montane forests,1
+Cauca Valley dry forests,Cordillera La Costa montane forests,1
+Bolivian Yungas,Cordillera La Costa montane forests,1
+Cordillera Central paramo,Cordillera La Costa montane forests,1
+Cordillera de Merida paramo,Cordillera La Costa montane forests,0
+Central Andean wet puna,Cordillera La Costa montane forests,1
+Central Andean puna,Cordillera La Costa montane forests,1
+Bolivian montane dry forests,Cordillera La Costa montane forests,1
+Araya and Paria xeric scrub,Cordillera La Costa montane forests,0
+Central Andean dry puna,Cordillera La Costa montane forests,1
+Chilean matorral,Cordillera La Costa montane forests,1
+Cauca Valley montane forests,Cordillera Oriental montane forests,0.5
+Atacama desert,Cordillera Oriental montane forests,1
+Cauca Valley dry forests,Cordillera Oriental montane forests,0.5
+Bolivian Yungas,Cordillera Oriental montane forests,1
+Cordillera Central paramo,Cordillera Oriental montane forests,1
+Cordillera La Costa montane forests,Cordillera Oriental montane forests,0.5
+Cordillera de Merida paramo,Cordillera Oriental montane forests,0.5
+Central Andean wet puna,Cordillera Oriental montane forests,1
+Central Andean puna,Cordillera Oriental montane forests,1
+Bolivian montane dry forests,Cordillera Oriental montane forests,1
+Araya and Paria xeric scrub,Cordillera Oriental montane forests,0.5
+Central Andean dry puna,Cordillera Oriental montane forests,1
+Chilean matorral,Cordillera Oriental montane forests,1
+Cauca Valley montane forests,Eastern Cordillera real montane forests,0.666666667
+Atacama desert,Eastern Cordillera real montane forests,1
+Cordillera Oriental montane forests,Eastern Cordillera real montane forests,0.75
+Cauca Valley dry forests,Eastern Cordillera real montane forests,0.666666667
+Bolivian Yungas,Eastern Cordillera real montane forests,0.75
+Cordillera Central paramo,Eastern Cordillera real montane forests,0.333333333
+Cordillera La Costa montane forests,Eastern Cordillera real montane forests,1
+Cordillera de Merida paramo,Eastern Cordillera real montane forests,1
+Central Andean wet puna,Eastern Cordillera real montane forests,0.75
+Central Andean puna,Eastern Cordillera real montane forests,0.833333333
+Bolivian montane dry forests,Eastern Cordillera real montane forests,1
+Araya and Paria xeric scrub,Eastern Cordillera real montane forests,1
+Central Andean dry puna,Eastern Cordillera real montane forests,0.833333333
+Chilean matorral,Eastern Cordillera real montane forests,1
+Cauca Valley montane forests,High Monte,1
+Atacama desert,High Monte,1
+Eastern Cordillera real montane forests,High Monte,1
+Cordillera Oriental montane forests,High Monte,1
+Cauca Valley dry forests,High Monte,1
+Bolivian Yungas,High Monte,1
+Cordillera Central paramo,High Monte,1
+Cordillera La Costa montane forests,High Monte,1
+Cordillera de Merida paramo,High Monte,1
+Central Andean wet puna,High Monte,1
+Central Andean puna,High Monte,0.75
+Bolivian montane dry forests,High Monte,1
+Araya and Paria xeric scrub,High Monte,1
+Central Andean dry puna,High Monte,0.75
+Chilean matorral,High Monte,1
+Cauca Valley montane forests,La Costa xeric shrublands,1
+Atacama desert,La Costa xeric shrublands,1
+Eastern Cordillera real montane forests,La Costa xeric shrublands,1
+Cordillera Oriental montane forests,La Costa xeric shrublands,0.5
+Cauca Valley dry forests,La Costa xeric shrublands,1
+Bolivian Yungas,La Costa xeric shrublands,1
+Cordillera Central paramo,La Costa xeric shrublands,1
+Cordillera La Costa montane forests,La Costa xeric shrublands,0
+Cordillera de Merida paramo,La Costa xeric shrublands,0
+Central Andean wet puna,La Costa xeric shrublands,1
+Central Andean puna,La Costa xeric shrublands,1
+Bolivian montane dry forests,La Costa xeric shrublands,1
+Araya and Paria xeric scrub,La Costa xeric shrublands,0
+Central Andean dry puna,La Costa xeric shrublands,1
+Chilean matorral,La Costa xeric shrublands,1
+High Monte,La Costa xeric shrublands,1
+Cauca Valley montane forests,Lake,1
+Atacama desert,Lake,1
+Eastern Cordillera real montane forests,Lake,0.75
+Cordillera Oriental montane forests,Lake,1
+Cauca Valley dry forests,Lake,1
+Bolivian Yungas,Lake,0
+Cordillera Central paramo,Lake,0.666666667
+Cordillera La Costa montane forests,Lake,1
+Cordillera de Merida paramo,Lake,1
+Central Andean wet puna,Lake,0
+Central Andean puna,Lake,0.5
+Bolivian montane dry forests,Lake,0.5
+Araya and Paria xeric scrub,Lake,1
+Central Andean dry puna,Lake,0.5
+La Costa xeric shrublands,Lake,1
+Chilean matorral,Lake,1
+High Monte,Lake,1
+Cauca Valley montane forests,Lara Falcon dry forests,1
+Atacama desert,Lara Falcon dry forests,1
+Eastern Cordillera real montane forests,Lara Falcon dry forests,1
+Cordillera Oriental montane forests,Lara Falcon dry forests,0.5
+Cauca Valley dry forests,Lara Falcon dry forests,1
+Bolivian Yungas,Lara Falcon dry forests,1
+Lake,Lara Falcon dry forests,1
+Cordillera Central paramo,Lara Falcon dry forests,1
+Cordillera La Costa montane forests,Lara Falcon dry forests,0
+Cordillera de Merida paramo,Lara Falcon dry forests,0
+Central Andean wet puna,Lara Falcon dry forests,1
+Central Andean puna,Lara Falcon dry forests,1
+Bolivian montane dry forests,Lara Falcon dry forests,1
+Araya and Paria xeric scrub,Lara Falcon dry forests,0
+Central Andean dry puna,Lara Falcon dry forests,1
+La Costa xeric shrublands,Lara Falcon dry forests,0
+Chilean matorral,Lara Falcon dry forests,1
+High Monte,Lara Falcon dry forests,1
+Cauca Valley montane forests,Magdalena Valley dry forests,0
+Atacama desert,Magdalena Valley dry forests,1
+Eastern Cordillera real montane forests,Magdalena Valley dry forests,0.666666667
+Lara Falcon dry forests,Magdalena Valley dry forests,1
+Cordillera Oriental montane forests,Magdalena Valley dry forests,0.5
+Cauca Valley dry forests,Magdalena Valley dry forests,0
+Bolivian Yungas,Magdalena Valley dry forests,1
+Lake,Magdalena Valley dry forests,1
+Cordillera Central paramo,Magdalena Valley dry forests,1
+Cordillera La Costa montane forests,Magdalena Valley dry forests,1
+Cordillera de Merida paramo,Magdalena Valley dry forests,1
+Central Andean wet puna,Magdalena Valley dry forests,1
+Central Andean puna,Magdalena Valley dry forests,1
+Bolivian montane dry forests,Magdalena Valley dry forests,1
+Araya and Paria xeric scrub,Magdalena Valley dry forests,1
+Central Andean dry puna,Magdalena Valley dry forests,1
+La Costa xeric shrublands,Magdalena Valley dry forests,1
+Chilean matorral,Magdalena Valley dry forests,1
+High Monte,Magdalena Valley dry forests,1
+Cauca Valley montane forests,Magdalena Valley montane forests,0
+Atacama desert,Magdalena Valley montane forests,1
+Eastern Cordillera real montane forests,Magdalena Valley montane forests,0.666666667
+Lara Falcon dry forests,Magdalena Valley montane forests,1
+Cordillera Oriental montane forests,Magdalena Valley montane forests,0.5
+Cauca Valley dry forests,Magdalena Valley montane forests,0
+Magdalena Valley dry forests,Magdalena Valley montane forests,0
+Bolivian Yungas,Magdalena Valley montane forests,1
+Lake,Magdalena Valley montane forests,1
+Cordillera Central paramo,Magdalena Valley montane forests,1
+Cordillera La Costa montane forests,Magdalena Valley montane forests,1
+Cordillera de Merida paramo,Magdalena Valley montane forests,1
+Central Andean wet puna,Magdalena Valley montane forests,1
+Central Andean puna,Magdalena Valley montane forests,1
+Bolivian montane dry forests,Magdalena Valley montane forests,1
+Araya and Paria xeric scrub,Magdalena Valley montane forests,1
+Central Andean dry puna,Magdalena Valley montane forests,1
+La Costa xeric shrublands,Magdalena Valley montane forests,1
+Chilean matorral,Magdalena Valley montane forests,1
+High Monte,Magdalena Valley montane forests,1
+Cauca Valley montane forests,Magellanic subpolar forests,1
+Atacama desert,Magellanic subpolar forests,0.5
+Magdalena Valley montane forests,Magellanic subpolar forests,1
+Eastern Cordillera real montane forests,Magellanic subpolar forests,1
+Lara Falcon dry forests,Magellanic subpolar forests,1
+Cordillera Oriental montane forests,Magellanic subpolar forests,1
+Cauca Valley dry forests,Magellanic subpolar forests,1
+Magdalena Valley dry forests,Magellanic subpolar forests,1
+Bolivian Yungas,Magellanic subpolar forests,1
+Lake,Magellanic subpolar forests,1
+Cordillera Central paramo,Magellanic subpolar forests,1
+Cordillera La Costa montane forests,Magellanic subpolar forests,1
+Cordillera de Merida paramo,Magellanic subpolar forests,1
+Central Andean wet puna,Magellanic subpolar forests,1
+Central Andean puna,Magellanic subpolar forests,0.5
+Bolivian montane dry forests,Magellanic subpolar forests,1
+Araya and Paria xeric scrub,Magellanic subpolar forests,1
+Central Andean dry puna,Magellanic subpolar forests,0.5
+La Costa xeric shrublands,Magellanic subpolar forests,1
+Chilean matorral,Magellanic subpolar forests,0.5
+High Monte,Magellanic subpolar forests,0.5
+Cauca Valley montane forests,Maranon dry forests,1
+Atacama desert,Maranon dry forests,1
+Magdalena Valley montane forests,Maranon dry forests,1
+Eastern Cordillera real montane forests,Maranon dry forests,0.666666667
+Lara Falcon dry forests,Maranon dry forests,1
+Cordillera Oriental montane forests,Maranon dry forests,1
+Cauca Valley dry forests,Maranon dry forests,1
+Magdalena Valley dry forests,Maranon dry forests,1
+Bolivian Yungas,Maranon dry forests,0.5
+Lake,Maranon dry forests,0.5
+Magellanic subpolar forests,Maranon dry forests,1
+Cordillera Central paramo,Maranon dry forests,0.5
+Cordillera La Costa montane forests,Maranon dry forests,1
+Cordillera de Merida paramo,Maranon dry forests,1
+Central Andean wet puna,Maranon dry forests,0.5
+Central Andean puna,Maranon dry forests,0.75
+Bolivian montane dry forests,Maranon dry forests,1
+Araya and Paria xeric scrub,Maranon dry forests,1
+Central Andean dry puna,Maranon dry forests,0.75
+La Costa xeric shrublands,Maranon dry forests,1
+Chilean matorral,Maranon dry forests,1
+High Monte,Maranon dry forests,1
+Cauca Valley montane forests,Northern Andean paramo,0.666666667
+Atacama desert,Northern Andean paramo,1
+Magdalena Valley montane forests,Northern Andean paramo,0.666666667
+Eastern Cordillera real montane forests,Northern Andean paramo,0.5
+Lara Falcon dry forests,Northern Andean paramo,0.666666667
+Cordillera Oriental montane forests,Northern Andean paramo,0.333333333
+Cauca Valley dry forests,Northern Andean paramo,0.666666667
+Magdalena Valley dry forests,Northern Andean paramo,0.666666667
+Maranon dry forests,Northern Andean paramo,1
+Bolivian Yungas,Northern Andean paramo,1
+Lake,Northern Andean paramo,1
+Magellanic subpolar forests,Northern Andean paramo,1
+Cordillera Central paramo,Northern Andean paramo,0.75
+Cordillera La Costa montane forests,Northern Andean paramo,0.666666667
+Cordillera de Merida paramo,Northern Andean paramo,0.666666667
+Central Andean wet puna,Northern Andean paramo,1
+Central Andean puna,Northern Andean paramo,1
+Bolivian montane dry forests,Northern Andean paramo,1
+Araya and Paria xeric scrub,Northern Andean paramo,0.666666667
+Central Andean dry puna,Northern Andean paramo,1
+La Costa xeric shrublands,Northern Andean paramo,0.666666667
+Chilean matorral,Northern Andean paramo,1
+High Monte,Northern Andean paramo,1
+Cauca Valley montane forests,Northwestern Andean montane forests,0.5
+Atacama desert,Northwestern Andean montane forests,1
+Magdalena Valley montane forests,Northwestern Andean montane forests,0.5
+Eastern Cordillera real montane forests,Northwestern Andean montane forests,0.333333333
+Lara Falcon dry forests,Northwestern Andean montane forests,1
+Cordillera Oriental montane forests,Northwestern Andean montane forests,0.666666667
+Cauca Valley dry forests,Northwestern Andean montane forests,0.5
+Magdalena Valley dry forests,Northwestern Andean montane forests,0.5
+Maranon dry forests,Northwestern Andean montane forests,1
+Bolivian Yungas,Northwestern Andean montane forests,1
+Lake,Northwestern Andean montane forests,1
+Northern Andean paramo,Northwestern Andean montane forests,0.333333333
+Magellanic subpolar forests,Northwestern Andean montane forests,1
+Cordillera Central paramo,Northwestern Andean montane forests,0.666666667
+Cordillera La Costa montane forests,Northwestern Andean montane forests,1
+Cordillera de Merida paramo,Northwestern Andean montane forests,1
+Central Andean wet puna,Northwestern Andean montane forests,1
+Central Andean puna,Northwestern Andean montane forests,1
+Bolivian montane dry forests,Northwestern Andean montane forests,1
+Araya and Paria xeric scrub,Northwestern Andean montane forests,1
+Central Andean dry puna,Northwestern Andean montane forests,1
+La Costa xeric shrublands,Northwestern Andean montane forests,1
+Chilean matorral,Northwestern Andean montane forests,1
+High Monte,Northwestern Andean montane forests,1
+Cauca Valley montane forests,Patagonian steppe,1
+Atacama desert,Patagonian steppe,0.5
+Magdalena Valley montane forests,Patagonian steppe,1
+Eastern Cordillera real montane forests,Patagonian steppe,1
+Lara Falcon dry forests,Patagonian steppe,1
+Cordillera Oriental montane forests,Patagonian steppe,1
+Northwestern Andean montane forests,Patagonian steppe,1
+Cauca Valley dry forests,Patagonian steppe,1
+Magdalena Valley dry forests,Patagonian steppe,1
+Maranon dry forests,Patagonian steppe,1
+Bolivian Yungas,Patagonian steppe,1
+Lake,Patagonian steppe,1
+Northern Andean paramo,Patagonian steppe,1
+Magellanic subpolar forests,Patagonian steppe,0
+Cordillera Central paramo,Patagonian steppe,1
+Cordillera La Costa montane forests,Patagonian steppe,1
+Cordillera de Merida paramo,Patagonian steppe,1
+Central Andean wet puna,Patagonian steppe,1
+Central Andean puna,Patagonian steppe,0.5
+Bolivian montane dry forests,Patagonian steppe,1
+Araya and Paria xeric scrub,Patagonian steppe,1
+Central Andean dry puna,Patagonian steppe,0.5
+La Costa xeric shrublands,Patagonian steppe,1
+Chilean matorral,Patagonian steppe,0.5
+High Monte,Patagonian steppe,0.5
+Cauca Valley montane forests,Patia Valley dry forests,0
+Atacama desert,Patia Valley dry forests,1
+Magdalena Valley montane forests,Patia Valley dry forests,0
+Eastern Cordillera real montane forests,Patia Valley dry forests,0.666666667
+Lara Falcon dry forests,Patia Valley dry forests,1
+Cordillera Oriental montane forests,Patia Valley dry forests,0.5
+Northwestern Andean montane forests,Patia Valley dry forests,0.5
+Cauca Valley dry forests,Patia Valley dry forests,0
+Magdalena Valley dry forests,Patia Valley dry forests,0
+Maranon dry forests,Patia Valley dry forests,1
+Bolivian Yungas,Patia Valley dry forests,1
+Lake,Patia Valley dry forests,1
+Patagonian steppe,Patia Valley dry forests,1
+Northern Andean paramo,Patia Valley dry forests,0.666666667
+Magellanic subpolar forests,Patia Valley dry forests,1
+Cordillera Central paramo,Patia Valley dry forests,1
+Cordillera La Costa montane forests,Patia Valley dry forests,1
+Cordillera de Merida paramo,Patia Valley dry forests,1
+Central Andean wet puna,Patia Valley dry forests,1
+Central Andean puna,Patia Valley dry forests,1
+Bolivian montane dry forests,Patia Valley dry forests,1
+Araya and Paria xeric scrub,Patia Valley dry forests,1
+Central Andean dry puna,Patia Valley dry forests,1
+La Costa xeric shrublands,Patia Valley dry forests,1
+Chilean matorral,Patia Valley dry forests,1
+High Monte,Patia Valley dry forests,1
+Cauca Valley montane forests,Peruvian Yungas,1
+Atacama desert,Peruvian Yungas,1
+Magdalena Valley montane forests,Peruvian Yungas,1
+Eastern Cordillera real montane forests,Peruvian Yungas,0.666666667
+Lara Falcon dry forests,Peruvian Yungas,1
+Cordillera Oriental montane forests,Peruvian Yungas,1
+Northwestern Andean montane forests,Peruvian Yungas,1
+Cauca Valley dry forests,Peruvian Yungas,1
+Magdalena Valley dry forests,Peruvian Yungas,1
+Maranon dry forests,Peruvian Yungas,0
+Bolivian Yungas,Peruvian Yungas,0.5
+Lake,Peruvian Yungas,0.5
+Patia Valley dry forests,Peruvian Yungas,1
+Patagonian steppe,Peruvian Yungas,1
+Northern Andean paramo,Peruvian Yungas,1
+Magellanic subpolar forests,Peruvian Yungas,1
+Cordillera Central paramo,Peruvian Yungas,0.5
+Cordillera La Costa montane forests,Peruvian Yungas,1
+Cordillera de Merida paramo,Peruvian Yungas,1
+Central Andean wet puna,Peruvian Yungas,0.5
+Central Andean puna,Peruvian Yungas,0.75
+Bolivian montane dry forests,Peruvian Yungas,1
+Araya and Paria xeric scrub,Peruvian Yungas,1
+Central Andean dry puna,Peruvian Yungas,0.75
+La Costa xeric shrublands,Peruvian Yungas,1
+Chilean matorral,Peruvian Yungas,1
+High Monte,Peruvian Yungas,1
+Cauca Valley montane forests,Rock and Ice,1
+Atacama desert,Rock and Ice,0.5
+Magdalena Valley montane forests,Rock and Ice,1
+Eastern Cordillera real montane forests,Rock and Ice,1
+Lara Falcon dry forests,Rock and Ice,1
+Cordillera Oriental montane forests,Rock and Ice,1
+Northwestern Andean montane forests,Rock and Ice,1
+Cauca Valley dry forests,Rock and Ice,1
+Magdalena Valley dry forests,Rock and Ice,1
+Maranon dry forests,Rock and Ice,1
+Bolivian Yungas,Rock and Ice,1
+Lake,Rock and Ice,1
+Patia Valley dry forests,Rock and Ice,1
+Peruvian Yungas,Rock and Ice,1
+Patagonian steppe,Rock and Ice,0
+Northern Andean paramo,Rock and Ice,1
+Magellanic subpolar forests,Rock and Ice,0
+Cordillera Central paramo,Rock and Ice,1
+Cordillera La Costa montane forests,Rock and Ice,1
+Cordillera de Merida paramo,Rock and Ice,1
+Central Andean wet puna,Rock and Ice,1
+Central Andean puna,Rock and Ice,0.5
+Bolivian montane dry forests,Rock and Ice,1
+Araya and Paria xeric scrub,Rock and Ice,1
+Central Andean dry puna,Rock and Ice,0.5
+La Costa xeric shrublands,Rock and Ice,1
+Chilean matorral,Rock and Ice,0.5
+High Monte,Rock and Ice,0.5
+Cauca Valley montane forests,Santa Marta montane forests,0
+Atacama desert,Santa Marta montane forests,1
+Magdalena Valley montane forests,Santa Marta montane forests,0
+Eastern Cordillera real montane forests,Santa Marta montane forests,0.666666667
+Lara Falcon dry forests,Santa Marta montane forests,1
+Cordillera Oriental montane forests,Santa Marta montane forests,0.5
+Northwestern Andean montane forests,Santa Marta montane forests,0.5
+Cauca Valley dry forests,Santa Marta montane forests,0
+Magdalena Valley dry forests,Santa Marta montane forests,0
+Maranon dry forests,Santa Marta montane forests,1
+Bolivian Yungas,Santa Marta montane forests,1
+Lake,Santa Marta montane forests,1
+Patia Valley dry forests,Santa Marta montane forests,0
+Peruvian Yungas,Santa Marta montane forests,1
+Patagonian steppe,Santa Marta montane forests,1
+Northern Andean paramo,Santa Marta montane forests,0.666666667
+Rock and Ice,Santa Marta montane forests,1
+Magellanic subpolar forests,Santa Marta montane forests,1
+Cordillera Central paramo,Santa Marta montane forests,1
+Cordillera La Costa montane forests,Santa Marta montane forests,1
+Cordillera de Merida paramo,Santa Marta montane forests,1
+Central Andean wet puna,Santa Marta montane forests,1
+Central Andean puna,Santa Marta montane forests,1
+Bolivian montane dry forests,Santa Marta montane forests,1
+Araya and Paria xeric scrub,Santa Marta montane forests,1
+Central Andean dry puna,Santa Marta montane forests,1
+La Costa xeric shrublands,Santa Marta montane forests,1
+Chilean matorral,Santa Marta montane forests,1
+High Monte,Santa Marta montane forests,1
+Santa Marta montane forests,Santa Marta paramo,0
+Cauca Valley montane forests,Santa Marta paramo,0
+Atacama desert,Santa Marta paramo,1
+Magdalena Valley montane forests,Santa Marta paramo,0
+Eastern Cordillera real montane forests,Santa Marta paramo,0.666666667
+Lara Falcon dry forests,Santa Marta paramo,1
+Cordillera Oriental montane forests,Santa Marta paramo,0.5
+Northwestern Andean montane forests,Santa Marta paramo,0.5
+Cauca Valley dry forests,Santa Marta paramo,0
+Magdalena Valley dry forests,Santa Marta paramo,0
+Maranon dry forests,Santa Marta paramo,1
+Bolivian Yungas,Santa Marta paramo,1
+Lake,Santa Marta paramo,1
+Patia Valley dry forests,Santa Marta paramo,0
+Peruvian Yungas,Santa Marta paramo,1
+Patagonian steppe,Santa Marta paramo,1
+Northern Andean paramo,Santa Marta paramo,0.666666667
+Rock and Ice,Santa Marta paramo,1
+Magellanic subpolar forests,Santa Marta paramo,1
+Cordillera Central paramo,Santa Marta paramo,1
+Cordillera La Costa montane forests,Santa Marta paramo,1
+Cordillera de Merida paramo,Santa Marta paramo,1
+Central Andean wet puna,Santa Marta paramo,1
+Central Andean puna,Santa Marta paramo,1
+Bolivian montane dry forests,Santa Marta paramo,1
+Araya and Paria xeric scrub,Santa Marta paramo,1
+Central Andean dry puna,Santa Marta paramo,1
+La Costa xeric shrublands,Santa Marta paramo,1
+Chilean matorral,Santa Marta paramo,1
+High Monte,Santa Marta paramo,1
+Santa Marta montane forests,Southern Andean steppe,1
+Cauca Valley montane forests,Southern Andean steppe,1
+Atacama desert,Southern Andean steppe,0.5
+Magdalena Valley montane forests,Southern Andean steppe,1
+Eastern Cordillera real montane forests,Southern Andean steppe,1
+Lara Falcon dry forests,Southern Andean steppe,1
+Cordillera Oriental montane forests,Southern Andean steppe,1
+Santa Marta paramo,Southern Andean steppe,1
+Northwestern Andean montane forests,Southern Andean steppe,1
+Cauca Valley dry forests,Southern Andean steppe,1
+Magdalena Valley dry forests,Southern Andean steppe,1
+Maranon dry forests,Southern Andean steppe,1
+Bolivian Yungas,Southern Andean steppe,1
+Lake,Southern Andean steppe,1
+Patia Valley dry forests,Southern Andean steppe,1
+Peruvian Yungas,Southern Andean steppe,1
+Patagonian steppe,Southern Andean steppe,0
+Northern Andean paramo,Southern Andean steppe,1
+Rock and Ice,Southern Andean steppe,0
+Magellanic subpolar forests,Southern Andean steppe,0
+Cordillera Central paramo,Southern Andean steppe,1
+Cordillera La Costa montane forests,Southern Andean steppe,1
+Cordillera de Merida paramo,Southern Andean steppe,1
+Central Andean wet puna,Southern Andean steppe,1
+Central Andean puna,Southern Andean steppe,0.5
+Bolivian montane dry forests,Southern Andean steppe,1
+Araya and Paria xeric scrub,Southern Andean steppe,1
+Central Andean dry puna,Southern Andean steppe,0.5
+La Costa xeric shrublands,Southern Andean steppe,1
+Chilean matorral,Southern Andean steppe,0.5
+High Monte,Southern Andean steppe,0.5
+Santa Marta montane forests,Southern Andean Yungas,1
+Cauca Valley montane forests,Southern Andean Yungas,1
+Atacama desert,Southern Andean Yungas,1
+Magdalena Valley montane forests,Southern Andean Yungas,1
+Eastern Cordillera real montane forests,Southern Andean Yungas,1
+Lara Falcon dry forests,Southern Andean Yungas,1
+Cordillera Oriental montane forests,Southern Andean Yungas,1
+Santa Marta paramo,Southern Andean Yungas,1
+Northwestern Andean montane forests,Southern Andean Yungas,1
+Cauca Valley dry forests,Southern Andean Yungas,1
+Magdalena Valley dry forests,Southern Andean Yungas,1
+Maranon dry forests,Southern Andean Yungas,1
+Bolivian Yungas,Southern Andean Yungas,0.666666667
+Lake,Southern Andean Yungas,0.666666667
+Patia Valley dry forests,Southern Andean Yungas,1
+Peruvian Yungas,Southern Andean Yungas,1
+Patagonian steppe,Southern Andean Yungas,0.666666667
+Northern Andean paramo,Southern Andean Yungas,1
+Rock and Ice,Southern Andean Yungas,0.666666667
+Magellanic subpolar forests,Southern Andean Yungas,0.666666667
+Cordillera Central paramo,Southern Andean Yungas,1
+Cordillera La Costa montane forests,Southern Andean Yungas,1
+Cordillera de Merida paramo,Southern Andean Yungas,1
+Central Andean wet puna,Southern Andean Yungas,0.666666667
+Central Andean puna,Southern Andean Yungas,0.5
+Bolivian montane dry forests,Southern Andean Yungas,0.5
+Araya and Paria xeric scrub,Southern Andean Yungas,1
+Southern Andean steppe,Southern Andean Yungas,0.666666667
+Central Andean dry puna,Southern Andean Yungas,0.5
+La Costa xeric shrublands,Southern Andean Yungas,1
+Chilean matorral,Southern Andean Yungas,1
+High Monte,Southern Andean Yungas,0.5
+Santa Marta montane forests,Tumbes Piura dry forests,1
+Cauca Valley montane forests,Tumbes Piura dry forests,1
+Atacama desert,Tumbes Piura dry forests,1
+Magdalena Valley montane forests,Tumbes Piura dry forests,1
+Eastern Cordillera real montane forests,Tumbes Piura dry forests,0.333333333
+Lara Falcon dry forests,Tumbes Piura dry forests,1
+Cordillera Oriental montane forests,Tumbes Piura dry forests,1
+Santa Marta paramo,Tumbes Piura dry forests,1
+Northwestern Andean montane forests,Tumbes Piura dry forests,0.666666667
+Cauca Valley dry forests,Tumbes Piura dry forests,1
+Magdalena Valley dry forests,Tumbes Piura dry forests,1
+Maranon dry forests,Tumbes Piura dry forests,0.5
+Bolivian Yungas,Tumbes Piura dry forests,0.666666667
+Lake,Tumbes Piura dry forests,0.666666667
+Patia Valley dry forests,Tumbes Piura dry forests,1
+Southern Andean Yungas,Tumbes Piura dry forests,1
+Peruvian Yungas,Tumbes Piura dry forests,0.5
+Patagonian steppe,Tumbes Piura dry forests,1
+Northern Andean paramo,Tumbes Piura dry forests,0.75
+Rock and Ice,Tumbes Piura dry forests,1
+Magellanic subpolar forests,Tumbes Piura dry forests,1
+Cordillera Central paramo,Tumbes Piura dry forests,0
+Cordillera La Costa montane forests,Tumbes Piura dry forests,1
+Cordillera de Merida paramo,Tumbes Piura dry forests,1
+Central Andean wet puna,Tumbes Piura dry forests,0.666666667
+Central Andean puna,Tumbes Piura dry forests,0.8
+Bolivian montane dry forests,Tumbes Piura dry forests,1
+Araya and Paria xeric scrub,Tumbes Piura dry forests,1
+Southern Andean steppe,Tumbes Piura dry forests,1
+Central Andean dry puna,Tumbes Piura dry forests,0.8
+La Costa xeric shrublands,Tumbes Piura dry forests,1
+Chilean matorral,Tumbes Piura dry forests,1
+High Monte,Tumbes Piura dry forests,1
+Santa Marta montane forests,Valdivian temperate forests,1
+Cauca Valley montane forests,Valdivian temperate forests,1
+Atacama desert,Valdivian temperate forests,0.5
+Magdalena Valley montane forests,Valdivian temperate forests,1
+Eastern Cordillera real montane forests,Valdivian temperate forests,1
+Lara Falcon dry forests,Valdivian temperate forests,1
+Cordillera Oriental montane forests,Valdivian temperate forests,1
+Santa Marta paramo,Valdivian temperate forests,1
+Northwestern Andean montane forests,Valdivian temperate forests,1
+Cauca Valley dry forests,Valdivian temperate forests,1
+Magdalena Valley dry forests,Valdivian temperate forests,1
+Tumbes Piura dry forests,Valdivian temperate forests,1
+Maranon dry forests,Valdivian temperate forests,1
+Bolivian Yungas,Valdivian temperate forests,1
+Lake,Valdivian temperate forests,1
+Patia Valley dry forests,Valdivian temperate forests,1
+Southern Andean Yungas,Valdivian temperate forests,0.666666667
+Peruvian Yungas,Valdivian temperate forests,1
+Patagonian steppe,Valdivian temperate forests,0
+Northern Andean paramo,Valdivian temperate forests,1
+Rock and Ice,Valdivian temperate forests,0
+Magellanic subpolar forests,Valdivian temperate forests,0
+Cordillera Central paramo,Valdivian temperate forests,1
+Cordillera La Costa montane forests,Valdivian temperate forests,1
+Cordillera de Merida paramo,Valdivian temperate forests,1
+Central Andean wet puna,Valdivian temperate forests,1
+Central Andean puna,Valdivian temperate forests,0.5
+Bolivian montane dry forests,Valdivian temperate forests,1
+Araya and Paria xeric scrub,Valdivian temperate forests,1
+Southern Andean steppe,Valdivian temperate forests,0
+Central Andean dry puna,Valdivian temperate forests,0.5
+La Costa xeric shrublands,Valdivian temperate forests,1
+Chilean matorral,Valdivian temperate forests,0.5
+High Monte,Valdivian temperate forests,0.5
+Santa Marta montane forests,Venezuelan Andes montane forests,0.5
+Cauca Valley montane forests,Venezuelan Andes montane forests,0.5
+Atacama desert,Venezuelan Andes montane forests,1
+Magdalena Valley montane forests,Venezuelan Andes montane forests,0.5
+Eastern Cordillera real montane forests,Venezuelan Andes montane forests,0.75
+Lara Falcon dry forests,Venezuelan Andes montane forests,0.5
+Cordillera Oriental montane forests,Venezuelan Andes montane forests,0
+Santa Marta paramo,Venezuelan Andes montane forests,0.5
+Northwestern Andean montane forests,Venezuelan Andes montane forests,0.666666667
+Cauca Valley dry forests,Venezuelan Andes montane forests,0.5
+Magdalena Valley dry forests,Venezuelan Andes montane forests,0.5
+Tumbes Piura dry forests,Venezuelan Andes montane forests,1
+Maranon dry forests,Venezuelan Andes montane forests,1
+Bolivian Yungas,Venezuelan Andes montane forests,1
+Lake,Venezuelan Andes montane forests,1
+Patia Valley dry forests,Venezuelan Andes montane forests,0.5
+Valdivian temperate forests,Venezuelan Andes montane forests,1
+Southern Andean Yungas,Venezuelan Andes montane forests,1
+Peruvian Yungas,Venezuelan Andes montane forests,1
+Patagonian steppe,Venezuelan Andes montane forests,1
+Northern Andean paramo,Venezuelan Andes montane forests,0.333333333
+Rock and Ice,Venezuelan Andes montane forests,1
+Magellanic subpolar forests,Venezuelan Andes montane forests,1
+Cordillera Central paramo,Venezuelan Andes montane forests,1
+Cordillera La Costa montane forests,Venezuelan Andes montane forests,0.5
+Cordillera de Merida paramo,Venezuelan Andes montane forests,0.5
+Central Andean wet puna,Venezuelan Andes montane forests,1
+Central Andean puna,Venezuelan Andes montane forests,1
+Bolivian montane dry forests,Venezuelan Andes montane forests,1
+Araya and Paria xeric scrub,Venezuelan Andes montane forests,0.5
+Southern Andean steppe,Venezuelan Andes montane forests,1
+Central Andean dry puna,Venezuelan Andes montane forests,1
+La Costa xeric shrublands,Venezuelan Andes montane forests,0.5
+Chilean matorral,Venezuelan Andes montane forests,1
+High Monte,Venezuelan Andes montane forests,1

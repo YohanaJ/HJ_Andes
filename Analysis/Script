@@ -1,176 +1,392 @@
 # Set working directory
 setwd("C:/Users")
 
-# Load required libraries
+#load libraries
 library(tidyr)
 library(dplyr)
 library(vegan)
 library(ggplot2)
 library(reshape2)
-library(ggpmisc)
 
-### ----------------------- Data Import -----------------------
+#geographic distance
+geogr <- read.csv("distance_geographic.csv")
+#political distance
+polit_dist <- read.csv("political_dissim.csv")
 
-# Read input CSV files
-geogr         <- read.csv("distance_geographic.csv")
-polit_proport <- read.csv("politicalproportion.csv")
-clima     <- read.csv("Ecoregions_climate_stats.csv")
-jaccard       <- read.csv("Jaccard_Homogenization_Results.csv")
+#similarity of native and non-native species
+jaccard <- read.csv("C:/Users/Jaccard_Homogenization_Results.csv")
 
-### ------------------ Histogram of Homogenization Index ------------------
+data <- data.frame(HI = jaccard$HI) %>%
+  filter(!is.na(HI))
 
+# Create the histogram with ggplot
+# Define custom breaks
+breaks <- c(-Inf, -0.0005, 0, 0.0005, Inf)
 
+p <- ggplot(jaccard, aes(x = HI, fill = HI > 0)) +
+  geom_histogram(binwidth = 0.00015, color = "black", alpha = 0.7) +
+  scale_fill_manual(values = c("TRUE" = "blue", "FALSE" = "red")) +  # Colors for positive and negative values
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +  # Vertical line at zero
+  labs(x = "Homogenization Index", y = "Count", title = "") +
+  theme_minimal()+ guides(fill="none")
 
-# Filter jaccard data to remove zero HI values for a refined histogram
-jaccard_filtered <- subset(jaccard, HI!= 0)
+sub_filtered <- subset(jaccard, HI < -0.00001 | HI > 0.00001)
 
-p_hi <- ggplot(jaccard_filtered, aes(x = HI, fill = HI > 0)) +
+p <- ggplot(sub_filtered, aes(x = HI, fill = HI > 0)) +
   geom_histogram(binwidth = 0.00005, color = "black", alpha = 0.7) +
-  scale_fill_manual(values = c("TRUE" = "blue", "FALSE" = "red")) +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +
-  labs(x = "Homogenization Index", y = "Count") +
+  scale_fill_manual(values = c("TRUE" = "blue", "FALSE" = "red")) +  # Colors for positive and negative values
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", size = 0.5) +  # Vertical line at zero
+  labs(x = "Homogenization Index", y = "Count", title = "") +
   theme_minimal() +
-  theme(text = element_text(size = 12)) +
-  guides(fill = "none")
-print(p_hi)
-# Uncomment below to save the histogram
-# ggsave("histogram_HI.jpeg", plot = p_hi, width = 8, height = 6, dpi = 300)
+  theme(text = element_text(size = 12)) +  # Font size 12
+  guides(fill = "none")  # Hide legend
 
-### ----------------------- Data Cleaning and Preparation -----------------------
+print(p)
+p
 
-# Subset and rename jaccard data columns
+# prepare data for regressions
+
+jaccard <- jaccard[, c(1,2,4,5,6)]
+jaccard <- na.omit(jaccard)
+colnames(jaccard) <- c("ecoregion1", "ecoregion2", "nat_distance", "exo_distance", "hi")
 jaccard <- jaccard %>%
-  select(1, 2, 4, 5, 6) %>%  # select desired columns
-  na.omit() %>%             # remove NA rows
-  rename(
-    ecoregion1   = 1,
-    ecoregion2   = 2,
-    nat_distance = 3,
-    exo_distance = 4,
-    hi           = 5
-  ) %>%
-  # Replace spaces with periods in ecoregion2 names for consistency
   mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
 
-# Prepare climatic data by selecting columns and computing Euclidean distances.
+#climate distance
+climate_pop <- read.csv("clima_pop.csv")
+colnames(climate_pop)
+climate <- climate_pop[,c(1,2,5)]
+climate_dist <- vegdist(climate[, 2,3], method = "euclidean", na.rm = TRUE)
+climate_dist<- as.matrix(climate_dist)
+climate_dist<- as.data.frame(climate_dist)
+rownames(climate_dist) <- climate$ECO_NAME
+colnames(climate_dist) <- climate$ECO_NAME
+library(reshape2)
+climate_dist_long <- melt(as.matrix(climate_dist), varnames = c("ECO_NAME1", "ECO_NAME2"), value.name = "distance")
+colnames(climate_dist_long) <- c("ecoregion1", "ecoregion2", "value")
 
-clima_dist <- vegdist(clima[, 2:7], method = "euclidean", na.rm = TRUE)
-clima_dist <- as.matrix(clima_dist)
-clima_dist <- as.data.frame(clima_dist)
-rownames(clima_dist) <- clima$ECO_NAME
-colnames(clima_dist) <- clima$ECO_NAME
+climate_long <- climate_dist_long %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
 
-# Convert the climatic distance matrix to long format
-clima_dist_long <- melt(as.matrix(clima_dist), varnames = c("ECO_NAME1", "ECO_NAME2"), value.name = "distance") %>%
-  rename(ecoregion1 = ECO_NAME1, ecoregion2 = ECO_NAME2) %>%
-  # Replace spaces with periods in ecoregion2 names
-  mutate(ecoregion2 = gsub(" ", ".", ecoregion2)) %>%
-  rename(climatic_distance = distance)
 
-# Clean up political proportion data: replace spaces in ecoregion2 and rename column
-polit_proport <- polit_proport %>%
-  mutate(ecoregion2 = gsub(" ", ".", ecoregion2)) %>%
-  rename(political_proportion = proportion)
 
-# Convert geographic distances to long format
+polit_dist <- polit_dist %>%
+  mutate(ecoregion2 = gsub(" ", ".", ecoregion2))
+
 geog_long <- geogr %>%
   pivot_longer(cols = -1, names_to = "ecoregion2", values_to = "value") %>%
   rename(ecoregion1 = 1) %>%
-  filter(ecoregion1 != ecoregion2) %>%  # Remove self-comparisons
-  rename(geographic_distance = value)
+  filter(ecoregion1 != ecoregion2)  # Remove self-comparisons
 
-### ----------------------- Merge Datasets -----------------------
 
-# Merge all datasets by common ecoregion identifiers
+climate_long <- climate_long %>% rename(climatic_distance = value)
+geog_long <- geog_long %>% rename(geographic_distance = value)
+polit_dist <- polit_dist %>% rename(political_distance = dissimilarity)
+
+# Merge all datasets
 merged_data <- jaccard %>%
-  left_join(clima_dist_long, by = c("ecoregion1", "ecoregion2")) %>%
+  left_join(climate_long, by = c("ecoregion1", "ecoregion2")) %>%
   left_join(geog_long, by = c("ecoregion1", "ecoregion2")) %>%
-  left_join(polit_proport, by = c("ecoregion1", "ecoregion2"))
+  left_join(polit_dist, by = c("ecoregion1", "ecoregion2"))
 
+################ Remove self comparisons like yungas–yungas
 
-# Standardize (scale) climatic and geographic distances to a 0-1 range for comparability
+summary(merged_data$climatic_distance)
+summary(merged_data$nat_distance)
+summary(merged_data$exo_distance)
+
+# Standardize all distances for comparability
 merged_data <- merged_data %>%
   mutate(
-    climatic_distance_scaled = (climatic_distance - min(climatic_distance, na.rm = TRUE)) / (max(climatic_distance, na.rm = TRUE) - min(climatic_distance, na.rm = TRUE)),
-    geographic_distance_scaled = (geographic_distance - min(geographic_distance, na.rm = TRUE)) / (max(geographic_distance, na.rm = TRUE) - min(geographic_distance, na.rm = TRUE))
+    climatic_distance_scaled = (climatic_distance - min(climatic_distance)) / (max(climatic_distance) - min(climatic_distance)),
+    geographic_distance_scaled = (geographic_distance - min(geographic_distance)) / (max(geographic_distance) - min(geographic_distance))
   )
 
-### ----------------------- Plotting -----------------------
+######################################## NATIVE
+library(ggplot2)
+library(ggpmisc)
+ggplot(data = merged_data, aes(x = geographic_distance_scaled, y = nat_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2","p")), size=2.5) +
+  geom_point(size=1) +
+  stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Geographic Distance (scaled)", 
+       y = "Jaccard Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave( file="revised_native_geographic_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
 
-# Helper function to generate regression plots with equation annotation
-plot_regression <- function(data, x, y, title_text, xlab, ylab) {
-  ggplot(data, aes_string(x = x, y = y)) +
-    stat_poly_eq(formula = y ~ x,
-                 aes(label = paste(..eq.label.., ..rr.label.., ..p.value.label.., sep = "~~~")),
-                 size = 2.5, parse = TRUE) +
-    geom_point(size = 1) +
-    stat_poly_line() +
-    labs(title = title_text, x = xlab, y = ylab) +
-    theme_grey(base_size = 9) +
-    theme(plot.title = element_text(hjust = 0, size = 10, face = "bold"))
+ggplot(data = merged_data, aes(x = climatic_distance_scaled, y = nat_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Climatic Distance (scaled)", 
+       y = "Jaccard Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave( file="revised_native_clima_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+colnames(merged_data)
+ggplot(data = merged_data, aes(x = political_distance, y = nat_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Native species",  
+       x = "Political dissimilarity", 
+       y = "Jaccard Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave(file="revised_native_polit_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+################################## NON-NATIVE
+
+ggplot(data = merged_data, aes(x = geographic_distance_scaled, y = exo_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2","p")), size=2.5) +
+  geom_point(size=1) +
+  stat_poly_line() +
+  labs(title = "Non-Native species",  
+       x = "Geographic Distance (scaled)", 
+       y = "Jaccard Non-Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave( file="exo_geographic_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+ggplot(data = merged_data, aes(x = climatic_distance_scaled, y = exo_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Non-Native species",  
+       x = "Climatic Distance (scaled)", 
+       y = "Jaccard Non-Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave( file="exotic_clima_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+colnames(merged_data)
+ggplot(data = merged_data, aes(x = political_distance, y = exo_distance)) +
+  stat_poly_eq(use_label(c("eq", "R2", "p")), size=2.5) +
+  geom_point(size=1) +stat_poly_line() +
+  labs(title = "Non-Native species",  
+       x = "Political dissimilarity", 
+       y = "Jaccard Non-Native Species")+ theme_grey(base_size = 9)+
+  theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
+ggsave(file="exotic_polit_distance.jpeg", width=10, height=10, units = c( "cm"), dpi=400)
+
+
+
+# 1) Data in long format
+df_long <- merged_data %>%
+  dplyr::select(geographic_distance_scaled, climatic_distance_scaled, political_distance,
+         nat_distance, exo_distance) %>%
+  pivot_longer(
+    cols = c(nat_distance, exo_distance),
+    names_to  = "type",
+    values_to = "distance"
+  ) %>%
+  mutate(
+    type = dplyr::recode(type,
+                  nat_distance = "Native",
+                  exo_distance  = "Non-native")
+  )
+
+# 2) Function to plot and overlay both groups:
+plot_with_slopes <- function(data, xvar, xlab, title) {
+  ggplot(data, aes_string(x = xvar, y = "distance", color = "type")) +
+    geom_point(size = 0.4, alpha = 0.7) +
+    stat_smooth(method = "lm", se = FALSE) +
+    stat_poly_eq(
+      aes(label = paste(..eq.label.., ..adj.rr.label.., ..p.value.label.., sep = "~~~~")),
+      formula      = y ~ x,
+      parse        = TRUE,
+      size         = 2.2,
+      label.x.npc  = 0.02,
+      label.y.npc  = 0.95
+    ) +
+    scale_color_manual(
+      name   = "Species",
+      values = c(Native = "black", `Non-native` = "blue")
+    ) +
+    labs(
+      title = title,
+      x     = xlab,
+      y     = "Jaccard Index"
+    ) +
+    theme_grey(base_size = 8)
 }
 
-# Regression plots for Homogenization Index 
-p_a <- plot_regression(merged_data, 
-                       x = "geographic_distance_scaled", y = "hi",
-                       title_text = "a)", 
-                       xlab = "Geographic Distance (scaled)", 
-                       ylab = "Hj")
-# Uncomment to save if needed
-# ggsave("hi_geo.jpeg", plot = p_a, width = 10, height = 10, units = "cm", dpi = 400)
+# 3) Three plots
+p_geo  <- plot_with_slopes(df_long, "geographic_distance_scaled",
+                           "Geographic Distance (scaled)", "a)")
+p_clim <- plot_with_slopes(df_long, "climatic_distance_scaled",
+                           "Climatic Distance (scaled)", "b) ")
+p_pol  <- plot_with_slopes(df_long, "political_distance",
+                           "Political Dissimilarity", "c) ")
 
-p_b <- plot_regression(merged_data, 
-                       x = "climatic_distance_scaled", y = "hi",
-                       title_text = "b)", 
-                       xlab = "Climatic Distance (scaled)", 
-                       ylab = "Hj")
-# p_c: Using political distance for homogenization index
-p_c <- plot_regression(merged_data, 
-                       x = "political_proportion", y = "hi",
-                       title_text = "c)", 
-                       xlab = "Jaccard index Countries", 
-                       ylab = "Hj")
-ggsave("hi_poli_prop.jpeg", plot = p_c, width = 10, height = 10, units = "cm", dpi = 400)
+# 4) Display or save
+print(p_geo)
+print(p_clim)
+print(p_pol)
 
-# Regression plots for Native Species (log_nat)
-p_nat_geo <- plot_regression(merged_data, 
-                             x = "geographic_distance_scaled", y = "nat_distance",
-                             title_text = "Native species", 
-                             xlab = "Geographic Distance (scaled)", 
-                             ylab = "Jaccard Native Species")
-# ggsave("native_geo.jpeg", plot = p_nat_geo, width = 10, height = 10, units = "cm", dpi = 400)
+# 2) Load patchwork
+library(patchwork)
 
-p_nat_clim <- plot_regression(merged_data, 
-                              x = "climatic_distance_scaled", y = "nat_distance",
-                              title_text = "Native species", 
-                              xlab = "Climatic Distance (scaled)", 
-                              ylab = "Jaccard Native Species")
-# ggsave("native_clim.jpeg", plot = p_nat_clim, width = 10, height = 10, units = "cm", dpi = 400)
+combined <- (p_geo + p_clim + p_pol) +
+  plot_layout(ncol = 1, guides = "collect") &
+  theme_gray(base_size = 8) &
+  theme(
+    text           = element_text(size = 8),
+    axis.text      = element_text(size = 8),
+    axis.title     = element_text(size = 8),
+    legend.text    = element_text(size = 8),
+    legend.title   = element_text(size = 8),
+    plot.title     = element_text(size = 8.5, hjust = 0)
+  )
 
-p_nat_pol <- plot_regression(merged_data, 
-                             x = "political_proportion", y = "nat_distance",
-                             title_text = "Native species", 
-                             xlab = "Jaccard index Countries", 
-                             ylab = "Jaccard Native Species")
+# Display
+print(combined)
 
-# Regression plots for Non-native Species (log_exo)
-p_exo_geo <- plot_regression(merged_data, 
-                             x = "geographic_distance_scaled", y = "exo_distance",
-                             title_text = "Non-native species", 
-                             xlab = "Geographic Distance (scaled)", 
-                             ylab = "Jaccard Non-native Species")
-# ggsave("exotic_geo.jpeg", plot = p_exo_geo, width = 10, height = 10, units = "cm", dpi = 400)
+# Save with width 8.5 cm (one column) and height 18 cm
+ggsave(
+  filename = "panel_three_plots.jpeg",
+  plot     = combined,
+  width    = 9,
+  height   = 25,
+  units    = "cm",
+  dpi      = 900
+)
 
-p_exo_clim <- plot_regression(merged_data, 
-                              x = "climatic_distance_scaled", y = "exo_distance",
-                              title_text = "Non-native species", 
-                              xlab = "Climatic Distance (scaled)", 
-                              ylab = "Jaccard Non-native Species")
-# ggsave("exotic_clim.jpeg", plot = p_exo_clim, width = 10, height = 10, units = "cm", dpi = 400)
+############### significant slope differences
+library(broom)
 
-p_exo_pol <- plot_regression(merged_data, 
-                             x = "political_proportion", y = "exo_distance",
-                             title_text = "Non-native species", 
-                             xlab = "Jaccard index Countries", 
-                             ylab = "Jaccard Non-native Species")
-ggsave("exotic_poli_prop.jpeg", plot = p_exo_pol, width = 10, height = 10, units = "cm", dpi = 400)
+# Convert to long format if not already
+df_long <- merged_data %>%
+  dplyr::select(geographic_distance_scaled, climatic_distance_scaled, political_distance,
+         nat_distance, exo_distance) %>%
+  pivot_longer(
+    cols = c(nat_distance, exo_distance),
+    names_to  = "type",
+    values_to = "distance"
+  ) %>%
+  mutate(
+    type = dplyr::recode(type,
+                  nat_distance = "Native",
+                  exo_distance  = "Non-native")
+  )
+
+# Function to test interaction p-value
+test_slope_diff <- function(formula, data) {
+  mod <- lm(formula, data = data)
+  tbl <- broom::tidy(mod)
+  inter <- tbl %>% filter(grepl(":", term))
+  return(inter$p.value)
+}
+
+# 1) Geographic
+p_geo_int <- test_slope_diff(
+  distance ~ geographic_distance_scaled * type,
+  data = df_long
+)
+
+# 2) Climatic
+p_clim_int <- test_slope_diff(
+  distance ~ climatic_distance_scaled * type,
+  data = df_long
+)
+
+# 3) Political
+p_pol_int <- test_slope_diff(
+  distance ~ political_distance * type,
+  data = df_long
+)
+
+# Result
+results <- tibble(
+  predictor = c("Geographic", "Climatic", "Political"),
+  p_interaction = c(p_geo_int, p_clim_int, p_pol_int)
+)
+
+print(results)
+
+################# interactions
+colnames(merged_data)
+model_nat <- glm(
+  nat_distance ~ political_distance * climatic_distance_scaled * geographic_distance_scaled,
+  data = merged_data,
+  family = gaussian(link = "identity")
+)
+
+model_nat2 <- glm(
+  nat_distance ~ climatic_distance_scaled * geographic_distance_scaled,
+  data = merged_data,
+  family = gaussian(link = "identity")
+)
+
+# Model 2: response = exo_distance
+model_exo <- glm(
+  exo_distance ~ political_distance * climatic_distance_scaled * geographic_distance_scaled,
+  data = merged_data,
+  family = gaussian(link = "identity")
+)
+
+# Summaries
+summary(model_nat2)
+summary(model_exo)
+
+library(interactions)
+
+# Plot the interaction
+interact_plot(
+  model_exo,
+  pred = political_distance,
+  modx = geographic_distance_scaled,
+  modx.values = c(-1, 0, 1),
+  x.label = "Political Distance",
+  y.label = "Similarity of Non-native (exo_distance)",
+  legend.main = "Geographic Distance (std)",
+  interval = TRUE
+)
+
+summary(merged_data$geographic_distance_scaled)
+
+library(ggplot2)
+library(interactions)
+
+johnson_neyman(model_exo,
+               pred = geographic_distance_scaled,
+               modx = political_distance)
+
+sim_slopes(model_exo,
+           pred = political_distance,
+           modx = geographic_distance_scaled,
+           johnson_neyman = FALSE)
+
+### mean hi per ecoregion
+
+jac2 <- jaccard %>%
+  mutate(ecoregion1 = gsub(" ", ".", ecoregion1))
+
+mean_hi <- with(jac2, rbind(
+  data.frame(ecoregion = ecoregion1, hi = hi),
+  data.frame(ecoregion = ecoregion2, hi = hi)
+))
+mean_hi <- aggregate(hi ~ ecoregion, mean_hi, mean, na.rm = TRUE)
+ecor <- read_sf("C:/Users/yohan/Desktop/otros/Romi/ecor_sp.shp")
+ecor2 <- ecor %>%
+  mutate(ECO_NAME = gsub(" ", ".", ECO_NAME))
+merged <- merge(mean_hi, ecor2, by.x = "ecoregion", by.y = "ECO_NAME")
+write_sf(merged, "ecoregion_hi.shp")
+
+# Are there duplicate pairs?
+jaccard_pairs <- jac2 %>%
+  mutate(
+    eco_min = pmin(ecoregion1, ecoregion2),
+    eco_max = pmax(ecoregion1, ecoregion2),
+    pair_id = paste(eco_min, eco_max, sep = "~~")
+  )
+
+# Step 2: how many pairs are duplicated
+dups <- jaccard_pairs %>%
+  count(pair_id, eco_min, eco_max, name = "n") %>%
+  filter(n > 1)
+
+n_dup_pairs <- nrow(dups)
+n_total_pairs <- nrow(jaccard)
+n_unique_pairs <- nrow(distinct(jaccard_pairs, pair_id))
+
+cat("Total rows:", n_total_pairs, "\n",
+    "Unique pairs:", n_unique_pairs, "\n",
+    "Pairs with duplicates (A–B and B–A, or repeated):", n_dup_pairs, "\n")
+dups
